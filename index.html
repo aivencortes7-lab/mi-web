@@ -1,27 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Mi primera web</title>
-  <style>
-    body {
-      background: #020617;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 80px;
-    }
-    h1 {
-      color: #38bdf8;
-      font-size: 3em;
-    }
-    p {
-      font-size: 1.2em;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Portafolio Minecraft</title>
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#020617;
+    color:white;
+}
+
+header{
+    padding:60px 20px;
+    text-align:center;
+    background:linear-gradient(135deg,#0284c7,#22d3ee);
+}
+
+header h1{
+    font-size:3em;
+    margin-bottom:10px;
+}
+
+section{
+    max-width:900px;
+    margin:auto;
+    padding:50px 20px;
+}
+
+.card{
+    background:#020617;
+    border:1px solid #0ea5e9;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.skills span{
+    display:inline-block;
+    background:#0ea5e9;
+    color:black;
+    padding:6px 12px;
+    border-radius:20px;
+    margin:5px;
+    font-size:0.9em;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    background:#020617;
+    border-top:1px solid #0ea5e9;
+}
+</style>
 </head>
+
 <body>
-  <h1>🚀 Mi web ya está online</h1>
-  <p>Creada gratis con GitHub Pages</p>
+
+<header>
+    <h1>🎮 Portafolio Minecraft</h1>
+    <p>Configurador • Builder • Staff</p>
+</header>
+
+<section>
+    <div class="card">
+        <h2>👤 Sobre mí</h2>
+        <p>
+            Soy un jugador de Minecraft con experiencia en servidores,
+            configuraciones y trabajo en equipo.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>🧱 Proyectos</h2>
+        <ul>
+            <li>OceanixCraft – Survival Custom</li>
+            <li>Servidor PvP (configuración)</li>
+            <li>Eventos y sistemas personalizados</li>
+        </ul>
+    </div>
+
+    <div class="card skills">
+        <h2>⚙️ Habilidades</h2>
+        <span>WorldEdit</span>
+        <span>WorldGuard</span>
+        <span>LuckPerms</span>
+        <span>EssentialsX</span>
+        <span>Configuración de plugins</span>
+    </div>
+
+    <div class="card">
+        <h2>📬 Contacto</h2>
+        <p>Discord: <b>TuUsuario#0000</b></p>
+        <p>GitHub: <b>github.com/TuUsuario</b></p>
+    </div>
+</section>
+
+<footer>
+    © 2026 – Portafolio Minecraft
+</footer>
+
 </body>
 </html>
