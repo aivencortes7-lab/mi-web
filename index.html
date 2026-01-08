@@ -5,17 +5,20 @@
 <title>Portafolio Minecraft</title>
 
 <style>
+/* ===== ESTILOS GENERALES ===== */
 body{
     margin:0;
     font-family: Arial, sans-serif;
     background:#020617;
     color:white;
+    transition: background 0.5s, color 0.5s;
 }
 
 header{
     padding:60px 20px;
     text-align:center;
     background:linear-gradient(135deg,#0284c7,#22d3ee);
+    animation: fadeIn 1.5s ease-out;
 }
 
 header h1{
@@ -27,6 +30,7 @@ section{
     max-width:900px;
     margin:auto;
     padding:50px 20px;
+    animation: fadeIn 2s ease-out;
 }
 
 .card{
@@ -35,6 +39,12 @@ section{
     border-radius:12px;
     padding:20px;
     margin-bottom:20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(14,165,233,0.5);
 }
 
 .skills span{
@@ -45,6 +55,11 @@ section{
     border-radius:20px;
     margin:5px;
     font-size:0.9em;
+    transition: transform 0.3s;
+}
+
+.skills span:hover{
+    transform: scale(1.1);
 }
 
 footer{
@@ -52,6 +67,30 @@ footer{
     padding:20px;
     background:#020617;
     border-top:1px solid #0ea5e9;
+}
+
+/* ===== BOTÓN DE DISCORD ===== */
+.discord-btn{
+    display:inline-block;
+    background:#5865F2;
+    color:white;
+    font-weight:bold;
+    padding:12px 25px;
+    border-radius:50px;
+    text-decoration:none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top:15px;
+}
+
+.discord-btn:hover{
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(88,101,242,0.5);
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes fadeIn{
+    from{opacity:0; transform: translateY(20px);}
+    to{opacity:1; transform: translateY(0);}
 }
 </style>
 </head>
@@ -92,7 +131,11 @@ footer{
 
     <div class="card">
         <h2>📬 Contacto</h2>
-        <p>Discord: <b>TuUsuario#0000</b></p>
+        <p>Discord:</p>
+        <!-- REEMPLAZA ESTE LINK POR TU DISCORD -->
+        <a href="https://discord.com/users/TU_USUARIO" target="_blank" class="discord-btn">
+            Únete a mi Discord
+        </a>
         <p>GitHub: <b>github.com/TuUsuario</b></p>
     </div>
 </section>
