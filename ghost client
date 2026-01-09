@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghost Client - Minecraft</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(0, 255, 0, 0.05);
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 3em;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; }
+            50% { text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00, 0 0 40px #00ff00; }
+        }
+
+        .subtitle {
+            color: #00cc00;
+            font-size: 1.2em;
+        }
+
+        .warning-box {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .warning-box h2 {
+            color: #ff0000;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .warning-box p {
+            color: #ff6666;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .panel {
+            background: rgba(0, 255, 0, 0.05);
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+        }
+
+        .panel h2 {
+            color: #00ff00;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .feature-list li {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: rgba(0, 255, 0, 0.1);
+            border-left: 3px solid #00ff00;
+            transition: all 0.3s ease;
+        }
+
+        .feature-list li:hover {
+            background: rgba(0, 255, 0, 0.2);
+            transform: translateX(5px);
+        }
+
+        .feature-list li::before {
+            content: '> ';
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .control-panel {
+            grid-column: 1 / -1;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .control-btn {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .control-btn:hover {
+            background: rgba(0, 255, 0, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            transform: scale(1.05);
+        }
+
+        .control-btn.active {
+            background: rgba(0, 255, 0, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.7);
+        }
+
+        .status-display {
+            background: #000;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            overflow-y: auto;
+        }
+
+        .status-line {
+            margin-bottom: 5px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .slider-control {
+            margin-bottom: 20px;
+        }
+
+        .slider-control label {
+            display: block;
+            margin-bottom: 10px;
+            color: #00ff00;
+        }
+
+        .slider {
+            width: 100%;
+            height: 5px;
+            background: rgba(0, 255, 0, 0.2);
+            outline: none;
+            border-radius: 5px;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #00ff00;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #00ff00;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas class="matrix-bg" id="matrix"></canvas>
+    
+    <div class="container">
+        <header>
+            <h1>👻 GHOST CLIENT</h1>
+            <p class="subtitle">Modo Sigiloso Activado</p>
+        </header>
+
+        <div class="warning-box">
+            <h2>⚠️ ADVERTENCIA EDUCATIVA ⚠️</h2>
+            <p>Este es un proyecto educativo. El uso de clientes modificados puede violar los términos de servicio de servidores y resultar en baneos permanentes.</p>
+        </div>
+
+        <div class="main-content">
+            <div class="panel">
+                <h2>Características Combat</h2>
+                <ul class="feature-list">
+                    <li>Killaura Legit (3.2 - 4.8 CPS)</li>
+                    <li>Velocity Reducer (20-40%)</li>
+                    <li>AutoClicker Humanizado</li>
+                    <li>Reach Extender (0.1 - 0.3)</li>
+                    <li>Hit Select (Jugadores únicamente)</li>
+                    <li>Anti-Knockback Sutil</li>
+                </ul>
+            </div>
+
+            <div class="panel">
+                <h2>Características Movement</h2>
+                <ul class="feature-list">
+                    <li>Sprint Toggle Automático</li>
+                    <li>Strafe Mejorado</li>
+                    <li>Safe Walk (Bordes)</li>
+                    <li>Step Assist (0.5 bloques)</li>
+                    <li>No Slow (Espada/Arco)</li>
+                    <li>Auto Jump (Opcional)</li>
+                </ul>
+            </div>
+
+            <div class="panel">
+                <h2>Características Visuales</h2>
+                <ul class="feature-list">
+                    <li>ESP de Jugadores (Sutil)</li>
+                    <li>Tracers Configurable</li>
+                    <li>Name Tags Mejorados</li>
+                    <li>Fullbright Suave</li>
+                    <li>Chest ESP</li>
+                    <li>Health Display</li>
+                </ul>
+            </div>
+
+            <div class="panel">
+                <h2>Utilidades</h2>
+                <ul class="feature-list">
+                    <li>Auto Tool (Herramienta óptima)</li>
+                    <li>Fast Place (Bloques)</li>
+                    <li>Inventory Manager</li>
+                    <li>Auto Armor</li>
+                    <li>Timer (0.9x - 1.1x)</li>
+                    <li>Anti-AFK</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel control-panel">
+            <h2>Panel de Control</h2>
+            
+            <div class="slider-control">
+                <label>Velocidad de Click: <span id="cpsValue">4.2</span> CPS</label>
+                <input type="range" min="32" max="48" value="42" class="slider" id="cpsSlider">
+            </div>
+
+            <div class="slider-control">
+                <label>Reach: <span id="reachValue">3.1</span> bloques</label>
+                <input type="range" min="30" max="35" value="31" class="slider" id="reachSlider">
+            </div>
+
+            <div class="slider-control">
+                <label>Velocity: <span id="velocityValue">70</span>%</label>
+                <input type="range" min="60" max="100" value="70" class="slider" id="velocitySlider">
+            </div>
+
+            <div class="controls">
+                <button class="control-btn" data-module="killaura">KillAura</button>
+                <button class="control-btn" data-module="velocity">Velocity</button>
+                <button class="control-btn" data-module="autoclicker">AutoClicker</button>
+                <button class="control-btn" data-module="esp">ESP</button>
+                <button class="control-btn" data-module="fullbright">Fullbright</button>
+                <button class="control-btn" data-module="sprint">Auto Sprint</button>
+                <button class="control-btn" data-module="noslow">No Slow</button>
+                <button class="control-btn" data-module="antiafk">Anti-AFK</button>
+            </div>
+
+            <div class="status-display" id="statusDisplay">
+                <div class="status-line">> Sistema iniciado...</div>
+                <div class="status-line">> Ghost Client v2.4.1 cargado</div>
+                <div class="status-line">> Modo sigiloso: ACTIVO</div>
+                <div class="status-line">> Anti-detección: HABILITADO</div>
+                <div class="status-line">> Esperando comandos...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Matrix background effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = '01アイウエオカキクケコサシスセソタチツテト';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#00ff00';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 35);
+
+        // Control buttons
+        const buttons = document.querySelectorAll('.control-btn');
+        const statusDisplay = document.getElementById('statusDisplay');
+
+        function addStatus(message) {
+            const line = document.createElement('div');
+            line.className = 'status-line';
+            line.textContent = '> ' + message;
+            statusDisplay.appendChild(line);
+            statusDisplay.scrollTop = statusDisplay.scrollHeight;
+            
+            if (statusDisplay.children.length > 20) {
+                statusDisplay.removeChild(statusDisplay.firstChild);
+            }
+        }
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const module = this.dataset.module;
+                const status = this.classList.contains('active') ? 'ACTIVADO' : 'DESACTIVADO';
+                addStatus(`${module.toUpperCase()}: ${status}`);
+            });
+        });
+
+        // Sliders
+        const cpsSlider = document.getElementById('cpsSlider');
+        const cpsValue = document.getElementById('cpsValue');
+        const reachSlider = document.getElementById('reachSlider');
+        const reachValue = document.getElementById('reachValue');
+        const velocitySlider = document.getElementById('velocitySlider');
+        const velocityValue = document.getElementById('velocityValue');
+
+        cpsSlider.addEventListener('input', function() {
+            const val = (this.value / 10).toFixed(1);
+            cpsValue.textContent = val;
+            addStatus(`CPS ajustado a ${val}`);
+        });
+
+        reachSlider.addEventListener('input', function() {
+            const val = (this.value / 10).toFixed(1);
+            reachValue.textContent = val;
+            addStatus(`Reach ajustado a ${val} bloques`);
+        });
+
+        velocitySlider.addEventListener('input', function() {
+            velocityValue.textContent = this.value;
+            addStatus(`Velocity ajustado a ${this.value}%`);
+        });
+
+        // Resize canvas on window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
