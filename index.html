@@ -3,695 +3,387 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VPS Terminal - Ubuntu 22.04 LTS</title>
+    <title>Mariela & Ivan | Roblox High-End Developers</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        /* --- CONFIGURACIÓN GENERAL --- */
+        :root {
+            --bg-color: #050505;
+            --card-bg: #111111;
+            --primary-blue: #00d4ff; /* Azul Neón */
+            --secondary-blue: #0056b3;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --gradient: linear-get(90deg, #00d4ff, #0056b3);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Courier New', monospace;
-            background: #1a1a1a;
-            color: #fff;
-            height: 100vh;
-            overflow: hidden;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
         }
 
-        .vps-container {
-            display: flex;
-            height: 100vh;
-        }
+        a { text-decoration: none; color: white; transition: 0.3s; }
+        ul { list-style: none; }
 
-        .sidebar {
-            width: 280px;
-            background: #2d2d2d;
-            border-right: 1px solid #444;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .server-info {
-            background: #1a1a1a;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            border-left: 3px solid #00ff00;
-        }
-
-        .server-info h3 {
-            color: #00ff00;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-        }
-
-        .info-item {
-            margin-bottom: 8px;
-            font-size: 0.85em;
-        }
-
-        .info-label {
-            color: #888;
-        }
-
-        .info-value {
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .stats {
-            background: #1a1a1a;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .stats h3 {
-            color: #00ff00;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-
-        .stat-bar {
-            margin-bottom: 15px;
-        }
-
-        .stat-label {
+        /* --- BARRA DE NAVEGACIÓN --- */
+        nav {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 5px;
-            font-size: 0.85em;
-        }
-
-        .progress-bar {
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
             width: 100%;
-            height: 20px;
-            background: #333;
-            border-radius: 10px;
-            overflow: hidden;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #1f1f1f;
         }
 
-        .progress-fill {
-            height: 100%;
-            transition: width 0.3s ease;
-            background: linear-gradient(90deg, #00ff00, #00cc00);
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
         }
 
-        .progress-fill.warning {
-            background: linear-gradient(90deg, #ffaa00, #ff8800);
-        }
+        .logo span { color: var(--primary-blue); }
 
-        .progress-fill.danger {
-            background: linear-gradient(90deg, #ff0000, #cc0000);
-        }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a:hover { color: var(--primary-blue); text-shadow: 0 0 10px var(--primary-blue); }
 
-        .quick-actions {
-            background: #1a1a1a;
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-        .quick-actions h3 {
-            color: #00ff00;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-
-        .action-btn {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            background: #333;
-            border: 1px solid #555;
-            color: #fff;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            transition: all 0.3s ease;
-        }
-
-        .action-btn:hover {
-            background: #444;
-            border-color: #00ff00;
-        }
-
-        .terminal-area {
-            flex: 1;
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            background: #000;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #0a1f30 0%, #050505 70%);
+            padding: 0 20px;
         }
 
-        .terminal-header {
-            background: #2d2d2d;
-            padding: 10px 20px;
-            border-bottom: 1px solid #444;
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero h1 span {
+            color: transparent;
+            background: linear-gradient(to right, var(--primary-blue), #ffffff);
+            -webkit-background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            font-weight: bold;
+            border-radius: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .btn:hover {
+            background: var(--primary-blue);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary-blue);
+        }
+
+        /* --- ESTADÍSTICAS --- */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            padding: 40px 0;
+            background: #0a0a0a;
+            border-bottom: 1px solid #1f1f1f;
+            flex-wrap: wrap;
+        }
+
+        .stat-item { text-align: center; }
+        .stat-number { font-size: 2rem; font-weight: bold; color: var(--primary-blue); }
+        .stat-label { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* --- EQUIPO (MARIELA & IVAN) --- */
+        .team-section {
+            padding: 100px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+        }
+        .section-title span { border-bottom: 3px solid var(--primary-blue); }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .member-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid #1f1f1f;
+            transition: 0.4s;
+            position: relative;
+        }
+
+        .member-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
+        }
+
+        .role-tag {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-blue);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .skills {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-badge {
+            font-size: 0.8rem;
+            background: #1f1f1f;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: #ddd;
+        }
+
+        /* --- PORTAFOLIO --- */
+        .portfolio-section {
+            padding: 100px 50px;
+            background: #080808;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .project-img {
+            width: 100%;
+            height: 200px;
+            background-color: #1a1a1a;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            color: #333;
         }
+        
+        /* Placeholder visual para que se vea bien sin imágenes reales */
+        .placeholder-icon { font-size: 3rem; color: #333; }
 
-        .terminal-title {
-            color: #00ff00;
+        .project-info { padding: 25px; }
+        .project-info h3 { margin-bottom: 10px; color: white; }
+        .project-info p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+
+        .play-link {
+            color: var(--primary-blue);
             font-weight: bold;
-        }
-
-        .terminal-controls {
             display: flex;
-            gap: 8px;
+            align-items: center;
+            gap: 10px;
         }
 
-        .control-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            cursor: pointer;
+        /* --- CONTACTO --- */
+        .contact {
+            padding: 100px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-color) 0%, #00101a 100%);
         }
 
-        .control-dot.close { background: #ff5f56; }
-        .control-dot.minimize { background: #ffbd2e; }
-        .control-dot.maximize { background: #27c93f; }
-
-        .terminal-body {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            font-size: 14px;
-            line-height: 1.6;
+        .discord-btn {
+            background: #5865F2;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+            transition: 0.3s;
         }
 
-        .terminal-line {
-            margin-bottom: 5px;
-            animation: fadeIn 0.3s ease;
+        .discord-btn:hover { background: #4752c4; transform: scale(1.05); }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #1f1f1f;
+            color: #555;
+            font-size: 0.9rem;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .prompt {
-            color: #00ff00;
-        }
-
-        .command {
-            color: #fff;
-        }
-
-        .output {
-            color: #aaa;
-        }
-
-        .error {
-            color: #ff5555;
-        }
-
-        .success {
-            color: #00ff00;
-        }
-
-        .warning {
-            color: #ffaa00;
-        }
-
-        .input-line {
-            display: flex;
-            margin-top: 10px;
-        }
-
-        .prompt-symbol {
-            color: #00ff00;
-            margin-right: 5px;
-        }
-
-        #commandInput {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 8px;
-            height: 16px;
-            background: #00ff00;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        .file-tree {
-            margin-left: 20px;
-        }
-
-        .file-item {
-            color: #aaa;
-        }
-
-        .directory {
-            color: #5599ff;
-            font-weight: bold;
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #1a1a1a;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #555;
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #777;
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
-            .vps-container {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                max-height: 40vh;
-            }
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* Simplificado para el ejemplo */
         }
     </style>
 </head>
 <body>
-    <div class="vps-container">
-        <div class="sidebar">
-            <div class="server-info">
-                <h3>🖥️ Información del Servidor</h3>
-                <div class="info-item">
-                    <span class="info-label">Hostname:</span>
-                    <span class="info-value">vps-mc-server-01</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">IP:</span>
-                    <span class="info-value">192.168.1.100</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">OS:</span>
-                    <span class="info-value">Ubuntu 22.04 LTS</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Kernel:</span>
-                    <span class="info-value">5.15.0-86-generic</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Uptime:</span>
-                    <span class="info-value" id="uptime">0d 0h 0m</span>
-                </div>
-            </div>
 
-            <div class="stats">
-                <h3>📊 Recursos del Sistema</h3>
-                
-                <div class="stat-bar">
-                    <div class="stat-label">
-                        <span>CPU</span>
-                        <span id="cpuValue">0%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="cpuBar" style="width: 0%"></div>
-                    </div>
-                </div>
-
-                <div class="stat-bar">
-                    <div class="stat-label">
-                        <span>RAM</span>
-                        <span id="ramValue">0.0 / 8.0 GB</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="ramBar" style="width: 0%"></div>
-                    </div>
-                </div>
-
-                <div class="stat-bar">
-                    <div class="stat-label">
-                        <span>Disco</span>
-                        <span id="diskValue">0 / 100 GB</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="diskBar" style="width: 0%"></div>
-                    </div>
-                </div>
-
-                <div class="stat-bar">
-                    <div class="stat-label">
-                        <span>Red</span>
-                        <span id="netValue">0 KB/s</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="netBar" style="width: 0%"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="quick-actions">
-                <h3>⚡ Acciones Rápidas</h3>
-                <button class="action-btn" onclick="quickCommand('systemctl status minecraft')">Estado Minecraft</button>
-                <button class="action-btn" onclick="quickCommand('systemctl restart minecraft')">Reiniciar Minecraft</button>
-                <button class="action-btn" onclick="quickCommand('htop')">Monitor de Recursos</button>
-                <button class="action-btn" onclick="quickCommand('tail -f /var/log/minecraft/latest.log')">Ver Logs</button>
-                <button class="action-btn" onclick="quickCommand('df -h')">Espacio en Disco</button>
-                <button class="action-btn" onclick="quickCommand('screen -r minecraft')">Consola Minecraft</button>
-            </div>
+    <nav>
+        <div class="logo">M&I<span>DEVS</span></div>
+        <div class="nav-links">
+            <a href="#team">Equipo</a>
+            <a href="#portfolio">Proyectos</a>
+            <a href="#contact">Contacto</a>
         </div>
+    </nav>
 
-        <div class="terminal-area">
-            <div class="terminal-header">
-                <span class="terminal-title">root@vps-mc-server-01: ~</span>
-                <div class="terminal-controls">
-                    <div class="control-dot close" onclick="alert('Terminal cerrado (simulación)')"></div>
-                    <div class="control-dot minimize"></div>
-                    <div class="control-dot maximize"></div>
-                </div>
-            </div>
-            
-            <div class="terminal-body" id="terminal">
-                <div class="terminal-line success">Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-86-generic x86_64)</div>
-                <div class="terminal-line output">Last login: Fri Jan 09 14:32:01 2026 from 203.0.113.42</div>
-                <div class="terminal-line output"></div>
-                <div class="terminal-line output">System information as of Fri Jan 09 14:32:15 UTC 2026</div>
-                <div class="terminal-line output"></div>
-                <div class="terminal-line output">  System load:  0.24              Processes:             145</div>
-                <div class="terminal-line output">  Usage of /:   28.5% of 97.87GB  Users logged in:       1</div>
-                <div class="terminal-line output">  Memory usage: 42%               IPv4 address for eth0: 192.168.1.100</div>
-                <div class="terminal-line output">  Swap usage:   0%</div>
-                <div class="terminal-line output"></div>
-                <div class="terminal-line success">✓ Minecraft server is running (PID: 1842)</div>
-                <div class="terminal-line success">✓ Port 25565 is open</div>
-                <div class="terminal-line output"></div>
-                <div class="input-line">
-                    <span class="prompt-symbol">root@vps-mc-server-01:~#</span>
-                    <input type="text" id="commandInput" autofocus autocomplete="off">
-                    <span class="cursor"></span>
-                </div>
-            </div>
+    <section class="hero">
+        <h1>Desarrollo Roblox <br><span>Next-Level</span></h1>
+        <p>Expertos en Luau, Construcción de Mapas y Experiencias Inmersivas. <br>Más de 5 años creando mundos virtuales de alto rendimiento.</p>
+        <a href="#contact" class="btn">Cotizar Proyecto</a>
+    </section>
+
+    <div class="stats">
+        <div class="stat-item">
+            <div class="stat-number">+50M</div>
+            <div class="stat-label">Visitas Totales</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">+15</div>
+            <div class="stat-label">Juegos Publicados</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Satisfacción</div>
         </div>
     </div>
 
-    <script>
-        const terminal = document.getElementById('terminal');
-        const commandInput = document.getElementById('commandInput');
-        let commandHistory = [];
-        let historyIndex = -1;
-        let uptimeSeconds = 0;
-
-        const fileSystem = {
-            '/': ['home', 'var', 'etc', 'usr', 'opt', 'root'],
-            '/home': ['minecraft', 'admin'],
-            '/var': ['log', 'www'],
-            '/var/log': ['minecraft', 'syslog', 'auth.log'],
-            '/etc': ['nginx', 'ssh', 'systemd'],
-            '/opt': ['minecraft-server'],
-            '/root': ['.bashrc', '.profile', 'backup.sh']
-        };
-
-        let currentPath = '/root';
-
-        const commands = {
-            help: () => {
-                return `Comandos disponibles:
-  help          - Muestra esta ayuda
-  ls            - Lista archivos y directorios
-  cd [dir]      - Cambia de directorio
-  pwd           - Muestra directorio actual
-  clear         - Limpia la terminal
-  htop          - Monitor de recursos del sistema
-  df -h         - Espacio en disco
-  free -h       - Uso de memoria
-  systemctl     - Control de servicios
-  screen -r     - Adjuntar a sesión screen
-  tail          - Ver logs en tiempo real
-  wget          - Descargar archivos
-  nano          - Editor de texto
-  uname -a      - Información del sistema
-  ps aux        - Procesos en ejecución
-  netstat       - Conexiones de red`;
-            },
-
-            ls: (args) => {
-                const path = args[0] || currentPath;
-                const files = fileSystem[path];
-                if (!files) return `ls: cannot access '${path}': No such file or directory`;
-                return files.map(f => {
-                    const isDir = fileSystem[path + '/' + f];
-                    return isDir ? `<span class="directory">${f}/</span>` : `<span class="file-item">${f}</span>`;
-                }).join('  ');
-            },
-
-            pwd: () => currentPath,
-
-            cd: (args) => {
-                if (!args[0]) {
-                    currentPath = '/root';
-                    return '';
-                }
-                const newPath = args[0].startsWith('/') ? args[0] : currentPath + '/' + args[0];
-                if (fileSystem[newPath]) {
-                    currentPath = newPath;
-                    return '';
-                }
-                return `cd: ${args[0]}: No such file or directory`;
-            },
-
-            clear: () => {
-                terminal.innerHTML = '';
-                return null;
-            },
-
-            htop: () => {
-                return `top - 14:35:22 up 2 days,  3:42,  1 user,  load average: 0.24, 0.31, 0.28
-Tasks: 145 total,   1 running, 144 sleeping,   0 stopped,   0 zombie
-%Cpu(s):  8.2 us,  2.1 sy,  0.0 ni, 89.5 id,  0.0 wa,  0.2 hi,  0.0 si,  0.0 st
-MiB Mem :   8192.0 total,   4512.3 free,   3421.8 used,    257.9 buff/cache
-MiB Swap:      0.0 total,      0.0 free,      0.0 used.   4503.2 avail Mem
-
-  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
- 1842 minecraft 20   0 4823120   2.8g  15488 S  12.3  35.2 245:32.19 java
- 1234 root      20   0  238096   8532   6784 S   2.0   0.1   4:12.34 nginx
-  856 mysql     20   0 1847232 423164  32456 S   1.3   5.2  67:45.23 mysqld`;
-            },
-
-            'df': () => {
-                return `Filesystem      Size  Used Avail Use% Mounted on
-/dev/vda1        98G   28G   65G  30% /
-tmpfs           4.0G     0  4.0G   0% /dev/shm
-/dev/vda2        50G   12G   36G  25% /var/log`;
-            },
-
-            'free': () => {
-                return `              total        used        free      shared  buff/cache   available
-Mem:           8192        3422        4512         128         258        4503
-Swap:             0           0           0`;
-            },
-
-            systemctl: (args) => {
-                if (args[0] === 'status' && args[1] === 'minecraft') {
-                    return `● minecraft.service - Minecraft Server
-   Loaded: loaded (/etc/systemd/system/minecraft.service; enabled)
-   Active: <span class="success">active (running)</span> since Wed 2026-01-07 11:00:15 UTC; 2 days ago
- Main PID: 1842 (java)
-    Tasks: 42 (limit: 9830)
-   Memory: 2.8G
-   CGroup: /system.slice/minecraft.service
-           └─1842 java -Xmx3G -Xms3G -jar server.jar nogui
-
-Jan 09 14:32:01 vps-mc-server-01 minecraft[1842]: [14:32:01] [Server thread/INFO]: Player123 joined the game`;
-                }
-                if (args[0] === 'restart' && args[1] === 'minecraft') {
-                    return `<span class="warning">Stopping minecraft.service...</span>
-<span class="success">Starting minecraft.service...</span>
-<span class="success">✓ minecraft.service restarted successfully</span>`;
-                }
-                return `Usage: systemctl [status|start|stop|restart] [service]`;
-            },
-
-            tail: (args) => {
-                if (args.includes('minecraft')) {
-                    return `[14:35:12] [Server thread/INFO]: Player123 has made the advancement [Stone Age]
-[14:35:18] [Server thread/INFO]: Player456 joined the game
-[14:35:22] [Server thread/INFO]: <Player123> hola a todos!
-[14:35:31] [User Authenticator #2/INFO]: UUID of player Player789 is abc-def-123
-[14:35:31] [Server thread/INFO]: Player789 joined the game
-[14:35:45] [Server thread/INFO]: <Player456> welcome!
-[14:35:52] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld`;
-                }
-                return `tail: ${args[0]}: No such file or directory`;
-            },
-
-            screen: (args) => {
-                if (args[0] === '-r' && args[1] === 'minecraft') {
-                    return `<span class="warning">Adjuntando a sesión screen 'minecraft'...</span>
-<span class="output">Usa Ctrl+A+D para desconectar sin cerrar la sesión</span>
-
-> say Servidor conectado desde terminal
-[Server] Servidor conectado desde terminal`;
-                }
-                return `screen: comando requiere argumentos. Uso: screen -r [nombre]`;
-            },
-
-            'uname': () => {
-                return `Linux vps-mc-server-01 5.15.0-86-generic #96-Ubuntu SMP Wed Sep 20 08:23:49 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux`;
-            },
-
-            ps: () => {
-                return `USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-root         1  0.0  0.1 169564 13532 ?        Ss   Jan07   0:12 /sbin/init
-minecraft 1842 12.3 35.2 4823120 2943488 ?     Sl   Jan07 245:32 java -Xmx3G -jar server.jar
-root      2341  0.0  0.0  16128  3456 pts/0    Ss   14:32   0:00 -bash
-mysql      856  1.3  5.2 1847232 423164 ?      Ssl  Jan07  67:45 /usr/sbin/mysqld`;
-            },
-
-            netstat: () => {
-                return `Active Internet connections (servers and established)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State
-tcp        0      0 0.0.0.0:25565           0.0.0.0:*               LISTEN
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN
-tcp        0      0 192.168.1.100:25565     203.0.113.15:52341      ESTABLISHED
-tcp        0      0 192.168.1.100:25565     198.51.100.42:48923     ESTABLISHED
-tcp        0      0 192.168.1.100:22        203.0.113.42:54321      ESTABLISHED`;
-            },
-
-            nano: (args) => {
-                return `GNU nano 6.2              ${args[0] || 'untitled'}
-
-<span class="output">  [ Editor de texto - Presiona Ctrl+X para salir ]</span>`;
-            },
-
-            wget: (args) => {
-                if (!args[0]) return `wget: falta URL`;
-                return `--2026-01-09 14:35:45--  ${args[0]}
-Resolviendo ${args[0]}... 93.184.216.34
-Conectando con ${args[0]}|93.184.216.34|:443... conectado.
-HTTP request sent, awaiting response... 200 OK
-Longitud: 1048576 (1.0M) [application/octet-stream]
-Guardando como: 'archivo.jar'
-
-archivo.jar    100%[===================>]   1.00M  5.24MB/s    in 0.2s
-
-2026-01-09 14:35:46 (5.24 MB/s) - 'archivo.jar' guardado [1048576/1048576]`;
-            }
-        };
-
-        commandInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                const cmd = commandInput.value.trim();
-                if (cmd) {
-                    commandHistory.push(cmd);
-                    historyIndex = commandHistory.length;
-                    executeCommand(cmd);
-                }
-                commandInput.value = '';
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                if (historyIndex > 0) {
-                    historyIndex--;
-                    commandInput.value = commandHistory[historyIndex];
-                }
-            } else if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                if (historyIndex < commandHistory.length - 1) {
-                    historyIndex++;
-                    commandInput.value = commandHistory[historyIndex];
-                } else {
-                    historyIndex = commandHistory.length;
-                    commandInput.value = '';
-                }
-            }
-        });
-
-        function executeCommand(cmd) {
-            addLine(`<span class="prompt">root@vps-mc-server-01:${currentPath}#</span> <span class="command">${cmd}</span>`);
-            
-            const parts = cmd.split(' ');
-            const command = parts[0];
-            const args = parts.slice(1);
-
-            if (commands[command]) {
-                const output = commands[command](args);
-                if (output !== null) {
-                    if (output) addLine(`<span class="output">${output}</span>`);
-                }
-            } else {
-                addLine(`<span class="error">bash: ${command}: command not found</span>`);
-            }
-
-            addInputLine();
-        }
-
-        function quickCommand(cmd) {
-            commandInput.value = cmd;
-            commandInput.focus();
-            const event = new KeyboardEvent('keydown', { key: 'Enter' });
-            commandInput.dispatchEvent(event);
-        }
-
-        function addLine(html) {
-            const line = document.createElement('div');
-            line.className = 'terminal-line';
-            line.innerHTML = html;
-            terminal.insertBefore(line, terminal.querySelector('.input-line'));
-            terminal.scrollTop = terminal.scrollHeight;
-        }
-
-        function addInputLine() {
-            const inputLine = terminal.querySelector('.input-line');
-            inputLine.querySelector('.prompt-symbol').textContent = `root@vps-mc-server-01:${currentPath}#`;
-        }
-
-        // Update stats
-        function updateStats() {
-            const cpu = Math.floor(Math.random() * 30) + 10;
-            const ram = (Math.random() * 3 + 2).toFixed(1);
-            const disk = Math.floor(Math.random() * 5) + 25;
-            const net = Math.floor(Math.random() * 500) + 100;
-
-            document.getElementById('cpuValue').textContent = cpu + '%';
-            document.getElementById('cpuBar').style.width = cpu + '%';
-            document.getElementById('cpuBar').className = 'progress-fill ' + (cpu > 70 ? 'danger' : cpu > 50 ? 'warning' : '');
-
-            const ramPercent = (ram / 8 * 100).toFixed(0);
-            document.getElementById('ramValue').textContent = `${ram} / 8.0 GB`;
-            document.getElementById('ramBar').style.width = ramPercent + '%';
-            document.getElementById('ramBar').className = 'progress-fill ' + (ramPercent > 80 ? 'danger' : ramPercent > 60 ? 'warning' : '');
-
-            document.getElementById('diskValue').textContent = `${disk} / 100 GB`;
-            document.getElementById('diskBar').style.width = disk + '%';
-
-            document.getElementById('netValue').textContent = `${net} KB/s`;
-            document.getElementById('netBar').style.width = Math.min(net / 10, 100) + '%';
-        }
-
-        function updateUptime() {
-            uptimeSeconds++;
-            const days = Math.floor(uptimeSeconds / 86400);
-            const hours = Math.floor((uptimeSeconds % 86400) / 3600);
-            const minutes = Math.floor((uptimeSeconds % 3600) / 60);
-            document.getElementById('uptime').textContent = `${days}d ${hours}h ${minutes}m`;
-        }
-
-        setInterval(updateStats, 3000);
-        setInterval(updateUptime, 60000);
-        updateStats();
+    <section id="team" class="team-section">
+        <h2 class="section-title"><span>Quienes Somos</span></h2>
         
-        commandInput.focus();
-    </script>
+        <div class="team-grid">
+            <div class="member-card">
+                <div class="role-tag">Lead Builder & Environment Artist</div>
+                <h2>Mariela</h2>
+                <p style="color: #aaa; margin: 15px 0;">Especialista en creación de mapas detallados, modelado 3D y diseño de atmósferas. Experiencia optimizando assets para reducir el lag sin perder calidad visual.</p>
+                <div class="skills">
+                    <span class="skill-badge">Blender</span>
+                    <span class="skill-badge">Low-Poly</span>
+                    <span class="skill-badge">Realistic Lighting</span>
+                    <span class="skill-badge">Map Design</span>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="role-tag">Lead Scripter & Game Architect</div>
+                <h2>Ivan</h2>
+                <p style="color: #aaa; margin: 15px 0;">Programador experto en Luau. Desarrollo de sistemas complejos de backend, datastores seguros, sistemas de combate y UI scripting avanzado.</p>
+                <div class="skills">
+                    <span class="skill-badge">Luau Avanzado</span>
+                    <span class="skill-badge">Datastores</span>
+                    <span class="skill-badge">UI/UX Scripting</span>
+                    <span class="skill-badge">Anti-Cheat</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="portfolio-section">
+        <h2 class="section-title"><span>Proyectos Destacados</span></h2>
+        
+        <div class="portfolio-grid">
+            <div class="project-card">
+                <div class="project-img">
+                    <i class="fas fa-city placeholder-icon"></i>
+                </div>
+                <div class="project-info">
+                    <h3>Cyber Tycoon 2077</h3>
+                    <p>Un tycoon futurista con sistema de guardado automático y renacimientos. Programación completa de UI y construcción del mapa.</p>
+                    <a href="#" class="play-link"><i class="fas fa-play"></i> Ver en Roblox</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-img">
+                    <i class="fas fa-ghost placeholder-icon"></i>
+                </div>
+                <div class="project-info">
+                    <h3>Horror Mansion: The Escape</h3>
+                    <p>Juego de terror multijugador. Incluye IA avanzada para los monstruos y generación procedimental de habitaciones.</p>
+                    <a href="#" class="play-link"><i class="fas fa-play"></i> Ver en Roblox</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-img">
+                    <i class="fas fa-khanda placeholder-icon"></i>
+                </div>
+                <div class="project-info">
+                    <h3>Anime Battle Arena RPG</h3>
+                    <p>Sistema de combate complejo, habilidades visuales (VFX) y sistema de inventario optimizado.</p>
+                    <a href="#" class="play-link"><i class="fas fa-play"></i> Ver en Roblox</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>¿Listo para crear el próximo éxito?</h2>
+        <p style="color: #aaa; margin-top: 10px;">Aceptamos comisiones para Scripts, Mapas o Juegos Completos.</p>
+        
+        <a href="#" class="discord-btn">
+            <i class="fab fa-discord"></i> Mariela#0000 & Ivan#0000
+        </a>
+        <br><br>
+        <p style="font-size: 0.9rem; color: #555;">También puedes escribirnos a: contacto@midevs.com</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Mariela & Ivan Development. All rights reserved.</p>
+    </footer>
+
 </body>
 </html>
